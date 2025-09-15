@@ -1,10 +1,12 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../Models/User'); // Adjust path as needed
+
+
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../Models/User.js'; // Adjust path as needed
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
         const existingUser = await User.findOne({ email });
@@ -17,7 +19,7 @@ exports.register = async (req, res) => {
     }
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -41,7 +43,7 @@ exports.login = async (req, res) => {
 };
 
 
-exports.getProfile = async (req, res) => {
+export const getProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.userId).select('-password');
         if (!user) return res.status(404).json({ message: 'User not found' });
